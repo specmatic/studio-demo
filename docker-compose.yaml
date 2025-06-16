@@ -1,0 +1,23 @@
+services:
+  studio:
+    image: specmatic/specmatic-studio:latest
+    container_name: studio
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./contracts:/usr/src/app
+
+  order-bff:
+    build:
+      context: order-bff
+      dockerfile: Dockerfile
+    network_mode: host
+
+    environment:
+      ORDER_API_URL: http://localhost:8090
+
+  order-api:
+    build:
+      context: order-api
+      dockerfile: Dockerfile
+    network_mode: host
