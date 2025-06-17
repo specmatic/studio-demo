@@ -7,8 +7,8 @@ RUN git clone https://github.com/specmatic/specmatic-order-bff-java /app
 
 WORKDIR /app
 
+EXPOSE 8080
 EXPOSE 9092
-EXPOSE 2181
 
 RUN ./gradlew clean assemble --no-daemon
 

@@ -7,7 +7,7 @@ RUN git clone https://github.com/specmatic/specmatic-order-api-java /app
 
 WORKDIR /app
 
-EXPOSE 8080
+EXPOSE 8090
 
 RUN ./mvnw clean package -DskipTests
 

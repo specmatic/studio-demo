@@ -8,16 +8,13 @@ services:
       - ./contracts:/usr/src/app
 
   order-bff:
-    build:
-      context: order-bff
-      dockerfile: Dockerfile
+    image: specmatic/specmatic-order-bff-java:latest
     network_mode: host
 
     environment:
       ORDER_API_URL: http://localhost:8090
+      KAFKA_BOOTSTRAP_SERVERS: localhost:9092
 
   order-api:
-    build:
-      context: order-api
-      dockerfile: Dockerfile
+    image: specmatic/specmatic-order-api-java:latest
     network_mode: host
