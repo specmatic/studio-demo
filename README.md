@@ -1,7 +1,12 @@
 # Specmatic Studio Demo
 
 Specmatic Studio is a tool for API design and testing. This demo showcases how to use Specmatic Studio to contract test
-a simple order API backend-for-frontend. The order-api-bff is a backend service that interacts with an order service.
+a simple [order API backend-for-frontend](https://github.com/specmatic/specmatic-order-bff-java). The [order-api-bff](https://github.com/specmatic/specmatic-order-api-java) is a backend service that interacts with an
+order service.
+
+![HTML client talks to client API which talks to backend api](specmatic-sample-architecture.svg)
+
+![HTML client talks to client API which talks to backend API](specmatic-order-bff-architecture.gif)
 
 ## Prerequisites
 
@@ -20,7 +25,7 @@ a simple order API backend-for-frontend. The order-api-bff is a backend service 
    docker-compose up
    ```
 
-3. Open Specmatic Studio in your browser:
+3. Open [Specmatic Studio](http://localhost:9000/_specmatic/studio) in your browser:
    ```bash
    http://localhost:9000/_specmatic/studio
    ```
