@@ -3,18 +3,25 @@ services:
     image: specmatic/specmatic-studio:latest
     container_name: studio
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - ./contracts:/usr/src/app
+    environment:
+      KAFKA_PROPERTIES: |
+        advertised.listeners=PLAINTEXT://studio:9092
+        listeners=PLAINTEXT://0.0.0.0:9092
+        listener.security.protocol.map=PLAINTEXT:PLAINTEXT
+        inter.broker.listener.name=PLAINTEXT
 
   order-bff:
     image: specmatic/specmatic-order-bff-java:latest
-    network_mode: host
-
+    container_name: order-bff
     environment:
-      ORDER_API_URL: http://localhost:8090
-      KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+      ORDER_API_URL: http://order-api:8090
+      KAFKA_BOOTSTRAP_SERVERS: "studio:9092"
 
   order-api:
     image: specmatic/specmatic-order-api-java:latest
-    network_mode: host
+    container_name: order-api
