@@ -6,6 +6,7 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+      - "9090:9090"
     volumes:
       - ./specs:/usr/src/app
     environment:

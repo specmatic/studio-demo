@@ -1,0 +1,61 @@
+'*':
+  name:
+  - iPhone
+  - Harry Potter
+  - Magarita Pizza
+  type:
+  - gadget
+  - book
+  - food
+  inventory:
+  - 5
+  - 10
+  id:
+  - 1
+  productid:
+  - 1
+  count:
+  - 10
+BadRequest:
+  timestamp:
+  - 2025-06-12T12:00:00.000+00:00
+  status:
+  - 400
+  path:
+  - /path
+PARAMETERS:
+  HEADER:
+    pageSize:
+    - 10
+  QUERY:
+    type:
+    - food
+    - gadget
+    - book
+    orderId:
+    - 1
+Product:
+  name:
+  - iPhone
+  - Harry Potter
+  - Magarita Pizza
+  id:
+  - 1
+  type:
+  - book
+  - gadget
+  - food
+  inventory:
+  - 10
+  description:
+  - World's most loved
+  - Number one product of the year
+Order:
+  id:
+  - 1
+  productid:
+  - 1
+  count:
+  - 10
+  status:
+  - pending
