@@ -9,7 +9,11 @@ services:
     volumes:
       - ./contracts:/usr/src/app
     environment:
-      KAFKA_ADDITIONAL_PROPS: "advertised.listeners=PLAINTEXT://studio:9092;listeners=PLAINTEXT://0.0.0.0:9092;listener.security.protocol.map=PLAINTEXT:PLAINTEXT;inter.broker.listener.name=PLAINTEXT"
+      KAFKA_PROPERTIES: |
+        advertised.listeners=PLAINTEXT://studio:9092
+        listeners=PLAINTEXT://0.0.0.0:9092
+        listener.security.protocol.map=PLAINTEXT:PLAINTEXT
+        inter.broker.listener.name=PLAINTEXT
 
   order-bff:
     image: specmatic/specmatic-order-bff-java:latest
