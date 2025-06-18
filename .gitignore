@@ -2,3 +2,4 @@
 caches
 contracts/build/
 contracts/api_order_v4_examples/
+kafka-logs/
