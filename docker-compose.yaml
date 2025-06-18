@@ -7,7 +7,7 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - ./contracts:/usr/src/app
+      - ./specs:/usr/src/app
     environment:
       KAFKA_PROPERTIES: |
         advertised.listeners=PLAINTEXT://studio:9092

@@ -15,17 +15,20 @@ order service.
 # Usage
 
 1. Clone the repository:
-   ```bash
+   ```shell
    git clone https://github.com/specmatic/studio-demo
    ```
 
-2. Navigate to the project directory, and start the compose services
-   ```bash
+2. Navigate to the project directory
+   ```shell
    cd studio-demo
-   docker-compose up
+   ```
+3. Start Studio along with the required App services
+   ```shell
+   docker compose up
    ```
 
-3. Open [Specmatic Studio](http://localhost:9000/_specmatic/studio) in your browser:
-   ```bash
-   http://localhost:9000/_specmatic/studio
+4. Open [Specmatic Studio](http://localhost:9000/_specmatic/studio) in your browser:
+   ```shell
+   open http://localhost:9000/_specmatic/studio
    ```
