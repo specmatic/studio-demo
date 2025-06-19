@@ -12,7 +12,11 @@
 
 This demo project showcases how to contract test a [Backend For Frontend (BFF) Service / API](https://github.com/specmatic/specmatic-order-bff-java). We will also demonstrate how to isolate this BFF service from its dependencies—a HTTP [Domain Service / API](https://github.com/specmatic/specmatic-order-api-java) and another asynchronous service listening on Kafka—using API mocking. In the process, we will explore the ability to record API specifications using Specmatic Proxy and perform Backward Compatibility Testing as we make changes to API specifications.
 
-The video on our [website](https://specmatic.io/specmatic-studio/) uses this very same repo to demonstrate the above. You can also use this repo to follow along with the video and learn about the various capabilities.
+## 🎬 Video Walkthrough
+
+[![Specmatic Studio Demo Video](https://img.youtube.com/vi/pdy6Z1BXbV0/0.jpg)](https://www.youtube.com/watch?v=pdy6Z1BXbV0)
+
+Watch the demo video above or directly on [YouTube](https://www.youtube.com/watch?v=pdy6Z1BXbV0). This video uses this very same repo to demonstrate the features described below. You can also use this repo to follow along with the video and learn about the various capabilities.
 
 ---
 
