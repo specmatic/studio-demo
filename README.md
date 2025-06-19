@@ -93,7 +93,7 @@ You will now see the test report appear, and you can click on the details to dri
 
 ---
 
-Want to accomplish more awesome capabilities? 🎯
+Excited to learn more about what you can do? 🚀
 
 - Record API specifications using the Proxy
 - Simulate faults using the Mock server
