@@ -90,3 +90,15 @@ You will now see the test report appear, and you can click on the details to dri
 ---
 
 🎉 **Congratulations!** You have successfully run an API Contract Test completely based on the OpenAPI spec without writing a single line of code.
+
+---
+
+Want to accomplish more awesome capabilities? 🎯
+
+- Record API specifications using the Proxy
+- Simulate faults using the Mock server
+- Generate spec-accurate examples to use as test and stub data
+- Make sure API spec changes are backward compatible
+- ...and much more!
+
+👉 [Follow along with the video walkthrough above.](#-video-walkthrough)
