@@ -179,5 +179,5 @@ components:
           type: number
         error:
           type: string
-        path:
+        message:
           type: string
