@@ -1,0 +1,24 @@
+version: 2
+contracts:
+  - filesystem:
+      directory: .
+    provides:
+      - specs:
+        - product_search_bff_v3.yaml
+        baseUrl: http://order-bff:8080
+    consumes:
+      - specs:
+        - kafka.yaml
+        port: 9092
+report:
+  formatters:
+    - type: text
+      layout: table
+    - type: ctrf
+  types:
+    APICoverage:
+      OpenAPI:
+        successCriteria:
+          minThresholdPercentage: 70
+          maxMissedEndpointsInSpec: 0
+          enforce: true

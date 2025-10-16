@@ -1,0 +1,97 @@
+openapi: 3.0.3
+
+info:
+  title: Location and Auth Service API
+  version: 1.0.0
+  description: Provides location zone information for users. All endpoints require internal bearer token.
+  contact:
+    name: Specmatic
+
+servers:
+  - url: http://localhost:3001
+  - url: http://host.docker.internal:3001
+
+tags:
+  - name: Location
+  - name: Auth
+
+security:
+  - internalToken: []
+
+paths:
+  /location:
+    post:
+      operationId: getUserDetails
+      tags: [Location, Auth]
+      summary: Get user's details
+      description: Given the user's email and password, returns shipping zone, region, and pin code coverage, with client token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LocationRequest"
+      responses:
+        "200":
+          description: Location details found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+components:
+  securitySchemes:
+    internalToken:
+        type: apiKey
+        in: header
+        name: internalToken
+
+  schemas:
+    LocationRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    LocationResponse:
+      type: object
+      required: [clientToken, shippingZone, country, region, pinCodeCoverage]
+      properties:
+        clientToken:
+          type: string
+        shippingZone:
+          type: string
+        country:
+          type: string
+        region:
+          type: string
+    
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }
+  
+  responses:
+    Unauthorized:
+      description: Missing or invalid auth token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"

@@ -1,0 +1,84 @@
+asyncapi: 3.0.0
+
+info:
+  title: Simple Order API
+  version: "1.0.0"
+
+servers:
+  localKafka:
+    host: localhost:9092
+    protocol: kafka
+
+channels:
+  place-order:
+    address: place-order
+    messages:
+      placeOrder.message:
+        $ref: "#/components/messages/OrderRequest"
+
+  process-order:
+    address: process-order
+    messages:
+      processOrder.message:
+        $ref: "#/components/messages/OrderResponse"
+
+operations:
+  PlaceOrder:
+    description: Place an order
+    action: receive
+    channel:
+      $ref: "#/channels/place-order"
+    messages:
+      - $ref: "#/channels/place-order/messages/placeOrder.message"
+    reply:
+      channel:
+        $ref: "#/channels/process-order"
+      messages:
+        - $ref: "#/channels/process-order/messages/processOrder.message"
+
+components:
+  messages:
+    OrderRequest:
+      contentType: application/json
+      correlationId:
+        description: Identifier that correlates requests with responses
+        location: "$message.header#/orderRequestId"
+      headers:
+        type: object
+        required:
+        - orderRequestId
+        properties:
+          orderRequestId:
+            type: string
+            description: Unique ID for tracking the order request
+      payload:
+        type: object
+        required:
+          - productId
+          - quantity
+        properties:
+          productId:
+            type: integer
+          quantity:
+            type: integer
+
+    OrderResponse:
+      contentType: application/json
+      correlationId:
+        description: Identifier that correlates this response with a request
+        location: "$message.header#/orderResponseId"
+      headers:
+        type: object
+        required:
+        - orderResponseId
+        properties:
+          orderResponseId:
+            type: string
+            description: Unique ID for tracking the order response
+      payload:
+        type: object
+        required:
+          - orderId
+        properties:
+          orderId:
+            type: integer

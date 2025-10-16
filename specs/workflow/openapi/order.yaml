@@ -1,0 +1,121 @@
+openapi: 3.0.3
+
+info:
+  title: Order Service API
+  version: 1.0.0
+  description: Order and product management. All endpoints require Client Token. Catalog varies by client's `shippingZone`.
+  contact:
+    name: Specmatic
+
+servers:
+  - url: http://localhost:3000
+  - url: http://host.docker.internal:3000
+
+tags:
+  - name: Orders
+  - name: Products
+
+paths:
+  /products:
+    get:
+      security:
+        - clientToken: []
+      operationId: getProducts
+      tags: [Products]
+      summary: Get products visible to caller
+      description: Returns a list of products accessible to caller's shipping zone
+      parameters:
+        - name: shippingZone
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      tags: [Orders]
+      summary: Get order by ID
+      description: Retrieve a specific order by its ID
+      security:
+        - clientToken: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The order ID
+      responses:
+        "200":
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  securitySchemes:
+    clientToken:
+      type: apiKey
+      in: header
+      name: clientToken
+
+  schemas:
+    Product:
+      type: object
+      required: [productId, name, price, quantity]
+      properties:
+        productId: { type: integer }
+        name: { type: string }
+        price: { type: number, format: double }
+        quantity: { type: integer, minimum: 0 }
+
+    ProductList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"
+
+    Order:
+      type: object
+      required: [orderId, total, productId, quantity]
+      properties:
+        orderId: { type: integer }
+        total: { type: number, format: double }
+        productId: { type: integer }
+        quantity: { type: integer, minimum: 1 }
+    
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string }
+        message: { type: string }
+  
+  responses:
+    Unauthorized:
+      description: Missing or invalid auth token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
