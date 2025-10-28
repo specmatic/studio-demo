@@ -16,6 +16,7 @@ services:
         listeners=PLAINTEXT://0.0.0.0:9092
         listener.security.protocol.map=PLAINTEXT:PLAINTEXT
         inter.broker.listener.name=PLAINTEXT
+      filter: "PATH!='/monitor/{id}'"
 
   order-bff:
     image: specmatic/specmatic-order-bff-java:latest
