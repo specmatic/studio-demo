@@ -24,7 +24,3 @@ services:
     environment:
       ORDER_API_URL: http://studio:9090
       KAFKA_BOOTSTRAP_SERVERS: "studio:9092"
-
-  order-api:
-    image: specmatic/specmatic-order-api-java:latest
-    container_name: order-api
