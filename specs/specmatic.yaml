@@ -4,12 +4,15 @@ contracts:
       directory: .
     provides:
       - specs:
-        - product_search_bff_v3.yaml
+        - product_search_bff_v5.yaml
         baseUrl: http://order-bff:8080
     consumes:
-      - specs:
+      - port: 9090
+        specs:
+        - api_order_v5.yaml
+      - port: 9092
+        specs:
         - kafka.yaml
-        port: 9092
 report:
   formatters:
     - type: text
