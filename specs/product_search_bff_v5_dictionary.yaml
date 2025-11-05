@@ -1,61 +1,49 @@
-'*':
+SPECMATIC_CONSTANTS:
   name:
-  - iPhone
-  - Harry Potter
-  - Margarita Pizza
+    - Idly Vada
+    - Garlic Nan
+    - Margarita Pizza
   type:
-  - gadget
-  - book
-  - food
-  inventory:
-  - 5
-  - 10
+    - food
   id:
-  - 1
+    - 1
   productid:
-  - 1
+    - 1
+'*':
+  name: $(name)
+  type: $(type)
+  inventory:
+    - 5
+    - 10
+  id: $(id)
+  productid: $(productid)
   count:
-  - 10
+    - 10
 BadRequest:
   timestamp:
-  - 2025-06-12T12:00:00.000+00:00
+    - 2025-06-12T12:00:00.000+00:00
   status:
-  - 400
+    - 400
   path:
-  - /path
+    - /path
 PARAMETERS:
   HEADER:
     pageSize:
-    - 10
+      - 10
   QUERY:
     type:
-    - food
-    - gadget
-    - book
+      - food
     orderId:
-    - 1
+      - 1
 Product:
-  name:
-  - iPhone
-  - Harry Potter
-  - Margarita Pizza
+  name: $(name)
   id:
-  - 1
-  type:
-  - book
-  - gadget
-  - food
+    - 1
+    - 2
+    - 3
+  type: $(type)
   inventory:
-  - 10
+    - 10
   description:
-  - World's most loved
-  - Number one product of the year
-Order:
-  id:
-  - 1
-  productid:
-  - 1
-  count:
-  - 10
-  status:
-  - pending
+    - World's most loved
+    - Number one healthy food of the year
