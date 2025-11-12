@@ -17,7 +17,7 @@ paths:
     parameters:
       - name: id
         schema:
-          type: number
+          type: integer
         in: path
         required: true
         examples:
@@ -51,25 +51,25 @@ paths:
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
-          description: "Not Found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseBody"
-              examples:
-                INVALID_ID:
-                  value:
-                    timestamp: "2023-03-17T12:06:56.177+00:00"
-                    status: 404
-                    error: "Not Found"
-                    message: "Not found"
-    post:
+          $ref: "#/components/responses/NotFound"
+    patch:
       description: Update product details
-      operationId: post-products-id
+      operationId: patch-products-id
       tags:
       - Product
       security:
         - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductBase"
+            examples:
+              UPDATE_PRODUCT:
+                value:
+                  name: "XYZ Fone"
+                  type: "gadget"
+                  inventory: 10
       responses:
         "200":
           description: Update successful
@@ -82,17 +82,8 @@ paths:
                   value: "success"
         "400":
           $ref: "#/components/responses/BadRequest"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ProductDetails"
-            examples:
-              UPDATE_PRODUCT:
-                value:
-                  name: "XYZ Fone"
-                  type: "gadget"
-                  inventory: 10
+        "404":
+          $ref: "#/components/responses/NotFound"
     delete:
       description: Delete a product
       tags:
@@ -112,6 +103,8 @@ paths:
                   value: "success"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
   "/products/{id}/image":
     put:
       description: Update or upload a product image
@@ -124,7 +117,9 @@ paths:
           required: true
           schema:
             type: integer
-          description: ID of the product to update the image for
+          examples:
+            UPDATE_IMAGE:
+              value: 10
       requestBody:
         description: Image file to be associated with the product
         required: true
@@ -143,7 +138,7 @@ paths:
               image:
                 contentType: image/png, image/jpeg
             examples:
-              UPDATE_PRODUCT_IMAGE:
+              UPDATE_IMAGE:
                 value:
                   image:
                     externalValue: ".specmatic/repos/specmatic-order-contracts/io/specmatic/examples/store/openapi/box_image.jpg"
@@ -157,21 +152,14 @@ paths:
                 properties:
                   message:
                     type: string
-                  productId:
-                    type: integer
               examples:
-                UPDATE_PRODUCT_IMAGE:
+                UPDATE_IMAGE:
                   value:
-                    message: "Product image updated successfully"
-                    productId: 10
+                    message: "Success"
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseBody"
+          $ref: "#/components/responses/NotFound"
   /products:
     get:
       description: GET Products based on type
@@ -192,6 +180,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/BadRequest"
     post:
       description: POST products
       operationId: post-products
@@ -205,11 +195,20 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/IdempotencyKey"
+          examples:
+            CREATE_PRODUCT:
+                value: (uuid)
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProductDetails"
+              $ref: "#/components/schemas/ProductBase"
+            examples:
+                CREATE_PRODUCT:
+                  value:
+                    name: "XYZ Phone"
+                    type: "gadget"
+                    inventory: 10
       responses:
         "201":
           description: POST /products
@@ -235,12 +234,12 @@ paths:
             $ref: "#/components/schemas/IdempotencyKey"
           examples:
             CREATE_ORDER:
-                value: 789cd4bb-97ec-488a-87a9-043f95336dc7
+                value: (uuid)
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OrderDetails"
+              $ref: "#/components/schemas/OrderBase"
             examples:
               CREATE_ORDER:
                 value:
@@ -282,21 +281,6 @@ paths:
                       id: 10
         "400":
           $ref: "#/components/responses/BadRequest"
-      parameters:
-        - name: productid
-          in: query
-          schema:
-            type: number
-          examples:
-            200_OK:
-              value: 10
-        - name: status
-          in: query
-          schema:
-            type: string
-          examples:
-            200_OK:
-              value: fulfilled
   /orders/bulk:
     post:
       description: Create multiple orders in bulk
@@ -313,7 +297,7 @@ paths:
             $ref: "#/components/schemas/IdempotencyKey"
           examples:
             BULK_CREATE_ORDERS:
-                value: 789cd4bb-97ec-488a-87a9-043f95336dc7
+                value: (uuid)
       requestBody:
         required: true
         content:
@@ -321,7 +305,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/OrderDetails"
+                $ref: "#/components/schemas/OrderBase"
             examples:
               BULK_CREATE_ORDERS:
                 value:
@@ -348,7 +332,7 @@ paths:
   "/orders/{id}":
     parameters:
       - schema:
-          type: number
+          type: integer
         name: id
         in: path
         required: true
@@ -383,25 +367,25 @@ paths:
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
-          description: "Not Found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponseBody"
-              examples:
-                INVALID_ID:
-                  value:
-                    timestamp: "2023-03-17T12:06:56.177+00:00"
-                    status: 404
-                    error: "Not Found"
-                    message: "Product with id 344 was not found"
-    post:
+          $ref: "#/components/responses/NotFound"
+    patch:
       description: Update order details
-      operationId: post-orders-id
+      operationId: patch-orders-id
       tags:
       - Order
       security:
         - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderUpdate"
+            examples:
+              UPDATE_ORDER:
+                value:
+                  productid: 10
+                  count: 1
+                  status: pending
       responses:
         "200":
           description: Success
@@ -414,17 +398,8 @@ paths:
                   value: "success"
         "400":
           $ref: "#/components/responses/BadRequest"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/OrderUpdate"
-            examples:
-              UPDATE_ORDER:
-                value:
-                  productid: 10
-                  count: 1
-                  status: pending
+        "404":
+          $ref: "#/components/responses/NotFound"
     delete:
       description: Cancel an order
       operationId: delete-orders-id
@@ -444,34 +419,14 @@ paths:
                   value: "success"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
 components:
   schemas:
-    IdempotencyKey:
-      type: string
-      format: uuid
-    
-    Id:
-      type: object
-      properties:
-        id:
-          type: integer
-      required:
-        - id
-
-    ProductDetails:
-      title: Product Details
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          $ref: '#/components/schemas/ProductType'
-        inventory:
-          type: integer
-      required:
-        - name
-        - type
-        - inventory
+    ProductInventory:
+      type: integer
+      minimum: 1
+      maximum: 101
 
     ProductType:
       type: string
@@ -482,13 +437,35 @@ components:
         - gadget
         - other
 
+    Id:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+        - id
+
+    ProductBase:
+      title: Product Details
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/ProductType'
+        inventory:
+          $ref: '#/components/schemas/ProductInventory'
+      required:
+        - name
+        - type
+        - inventory
+
     Product:
-      title: Product
       allOf:
         - $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/ProductDetails'
+        - $ref: '#/components/schemas/ProductBase'
 
-    OrderDetails:
+    OrderBase:
       title: Order Details
       type: object
       properties:
@@ -508,19 +485,10 @@ components:
         - pending
         - cancelled
     
-    OrderUpdate:
-      allOf:
-        - $ref: '#/components/schemas/OrderDetails'
-        - type: object
-          properties:
-            status:
-              $ref: '#/components/schemas/OrderStatus'
-
     Order:
-      title: Order
       allOf:
         - $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/OrderDetails'
+        - $ref: '#/components/schemas/OrderBase'
         - type: object
           properties:
             status:
@@ -528,39 +496,47 @@ components:
           required:
             - status
 
+    OrderUpdate:
+      allOf:
+        - $ref: '#/components/schemas/OrderBase'
+        - type: object
+          properties:
+            status:
+              $ref: '#/components/schemas/OrderStatus'
+          required:
+            - status
+
+    IdempotencyKey:
+      type: string
+      format: uuid
+
     ErrorResponseBody:
-      properties:
-        id:
-          type: number
-        timestamp:
-          type: string
-        status:
-          type: number
-        error:
-          type: string
-        message:
-          type: string
-
-    BadRequestErrorResponseBody:
-      required:
-        - error
+      title: Bad Request
+      type: object
       properties:
         timestamp:
           type: string
         status:
-          type: number
+          type: integer
         error:
           type: string
         message:
           type: string
-
+  
   responses:
+    NotFound:
+      description: "Not Found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponseBody"
+
     BadRequest:
       description: "Bad Request"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/BadRequestErrorResponseBody"
+            $ref: "#/components/schemas/ErrorResponseBody"
 
   securitySchemes:
     ApiKeyAuth:
