@@ -22,7 +22,7 @@ services:
     image: specmatic/specmatic-order-bff-java:latest
     container_name: order-bff
     environment:
-      ORDER_API_URL: http://studio:9090
+      ORDER_API_URL: http://order-api:8090
       KAFKA_BOOTSTRAP_SERVERS: "studio:9092"
   
   order-api:
