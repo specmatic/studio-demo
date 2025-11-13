@@ -5,18 +5,15 @@ SPECMATIC_CONSTANTS:
     - Margarita Pizza
   type:
     - food
-  id:
-    - 1
-  productid:
-    - 1
-'*':
+ProductBase:
   name: $(name)
   type: $(type)
   inventory:
     - 5
     - 10
-  id: $(id)
-  productid: $(productid)
+OrderBase:
+  productid:
+    - 1
   count:
     - 10
 BadRequest:
@@ -35,15 +32,8 @@ PARAMETERS:
       - food
     orderId:
       - 1
-Product:
-  name: $(name)
+Id:
   id:
     - 1
     - 2
     - 3
-  type: $(type)
-  inventory:
-    - 10
-  description:
-    - World's most loved
-    - Number one healthy food of the year

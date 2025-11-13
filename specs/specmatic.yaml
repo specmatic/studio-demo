@@ -9,7 +9,7 @@ contracts:
     consumes:
       - port: 9090
         specs:
-        - api_order_v5.yaml
+        - proxy_generated.yaml
       - port: 9092
         specs:
         - kafka.yaml

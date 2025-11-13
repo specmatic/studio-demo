@@ -61,7 +61,7 @@ paths:
   /findAvailableProducts:
     parameters:
       - schema:
-          type: string
+          $ref : '#/components/schemas/ProductType'
         name: type
         in: query
         required: false
@@ -110,7 +110,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest'
-  /orders:
+  /ordres:
     post:
       description: Create a new order
       operationId: createOrder
@@ -328,5 +328,5 @@ components:
           type: integer
         error:
           type: string
-        message:
+        path:
           type: string
