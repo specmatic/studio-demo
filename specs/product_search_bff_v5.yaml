@@ -328,5 +328,5 @@ components:
           type: integer
         error:
           type: string
-        path:
+        message:
           type: string

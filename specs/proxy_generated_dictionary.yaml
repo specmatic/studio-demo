@@ -1,4 +1,4 @@
-ResponseBody:
+SPECMATIC_CONSTANTS:
   type:
   - other
   inventory:
@@ -14,3 +14,13 @@ ResponseBody:
   - 90
   - 100
   - 101
+
+PARAMETERS:
+  QUERY:
+    type: $(type)
+  HEADER:
+    pageSize: 20
+
+Products_GET_200_application_json_ResponseBody:
+  type: $(type)
+  inventory: $(inventory)
