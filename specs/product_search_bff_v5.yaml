@@ -29,12 +29,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProductBase'
-            examples:
-              SUCCESS:
-                value:
-                  name: iPhone
-                  type: gadget
-                  inventory: 100
       responses:
         '201':
           description: Product created
@@ -42,10 +36,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Id'
-              examples:
-                SUCCESS:
-                  value:
-                    id: 1
         '202':
           description: Product Accepted
           headers:
@@ -65,17 +55,11 @@ paths:
         name: type
         in: query
         required: false
-        examples:
-          SUCCESS:
-            value: gadget
       - name: pageSize
         in: header
         schema:
           type: integer
         required: true
-        examples:
-          SUCCESS:
-            value: 10
     get:
       description: Find available products
       operationId: findAvailableProducts
@@ -90,13 +74,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Product'
-              examples:
-                SUCCESS:
-                  value:
-                    - name: iPhone
-                      id: 1
-                      type: gadget
-                      inventory: 100
         '429':
           description: TooManyRequests
           headers:
@@ -121,11 +98,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrderBase'
-            examples:
-              SUCCESS:
-                value:
-                  productid: 1
-                  count: 2
       responses:
         '201':
           description: Order created
@@ -133,10 +105,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Id'
-              examples:
-                SUCCESS:
-                  value:
-                    id: 1
         '202':
           description: Order accepted
           headers:
@@ -149,38 +117,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest'
-    get:
-      description: Retrieve orders
-      operationId: getOrders
-      tags:
-        - WIP
-        - Order
-      parameters:
-        - in: query
-          name: orderId
-          schema:
-            type: integer
-          required: false
-          description: ID of the order to retrieve. If not provided, returns all orders.
-          examples:
-            SUCCESS:
-              value: 100
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order'
-              examples:
-                SUCCESS:
-                  value:
-                    - id: 1
-                      productid: 1
-                      count: 2
-                      status: "completed"
   /monitor/{id}:
     get:
       description: Retrieves a Monitor by ID
@@ -222,6 +158,7 @@ components:
         - other
     MonitorLink:
       type: string
+      pattern: "<\\/monitor\\/\\d+>;rel=related;title=monitor"
       description: Monitor link to check status
       example: </monitor/123>;rel=related;title=monitor
     Id:
