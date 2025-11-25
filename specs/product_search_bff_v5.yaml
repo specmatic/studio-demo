@@ -60,6 +60,18 @@ paths:
         schema:
           type: integer
         required: true
+      - name: from-date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: to-date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
     get:
       description: Find available products
       operationId: findAvailableProducts
@@ -87,7 +99,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest'
-  /ordres:
+  /orders:
     post:
       description: Create a new order
       operationId: createOrder

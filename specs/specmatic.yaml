@@ -13,6 +13,8 @@ contracts:
       - port: 9092
         specs:
         - kafka.yaml
+#hooks:
+#  post_specmatic_response_processor: ./hooks/post_specmatic_response_processor.sh
 report:
   formatters:
     - type: text

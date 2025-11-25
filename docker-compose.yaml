@@ -1,6 +1,6 @@
 services:
   studio:
-    image: specmatic/specmatic-studio:latest
+    image: specmatic/specmatic-studio:1.12.3-SNAPSHOT
     container_name: studio
     restart: unless-stopped
     ports:
