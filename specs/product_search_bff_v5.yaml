@@ -65,13 +65,13 @@ paths:
         required: true
         schema:
           type: string
-          format: date-time
+          format: date
       - name: to-date
         in: query
         required: true
         schema:
           type: string
-          format: date-time
+          format: date
     get:
       description: Find available products
       operationId: findAvailableProducts
@@ -198,6 +198,15 @@ components:
       allOf:
         - $ref: '#/components/schemas/Id'
         - $ref: '#/components/schemas/ProductBase'
+        - $ref: '#/components/schemas/CreatedOn'
+    CreatedOn:
+      type: object
+      required:
+        - createdOn
+      properties:
+        createdOn:
+          type: string
+          format: date
     OrderBase:
       title: Order Details
       type: object
