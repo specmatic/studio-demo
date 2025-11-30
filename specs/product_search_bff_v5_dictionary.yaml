@@ -5,6 +5,19 @@ SPECMATIC_CONSTANTS:
     - Margarita Pizza
   type:
     - food
+ProductType:
+  type:
+    - $(type)
+Product:
+    id:
+        - 1
+        - 2
+        - 3
+    name: $(name)
+    type: $(type)
+    inventory:
+        - 5
+        - 10
 ProductBase:
   name: $(name)
   type: $(type)
