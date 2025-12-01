@@ -25,9 +25,18 @@ services:
     environment:
       ORDER_API_URL: http://order-api:8090
       KAFKA_BOOTSTRAP_SERVERS: "studio:9092"
+      CORS_ORIGINS: http://localhost:3000
 
   order-api:
     image: specmatic/specmatic-order-api-java:latest
     container_name: order-api
+    environment:
+      INVENTORY_API_URL: http://order-inventory:8070
     ports:
       - "8090:8090"
+
+  order-inventory:
+    image: specmatic/specmatic-order-inventory-java:latest
+    container_name: order-inventory
+    ports:
+      - "8070:8070"

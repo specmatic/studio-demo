@@ -10,6 +10,9 @@ contracts:
       - port: 9090
         specs:
         - proxy_generated.yaml
+      - port: 8070
+        specs:
+        - api_inventory_v1.yaml
       - port: 9092
         specs:
         - kafka.yaml
