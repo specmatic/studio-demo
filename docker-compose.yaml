@@ -19,6 +19,8 @@ services:
 
   order-bff:
     image: specmatic/specmatic-order-bff-java:latest
+    ports:
+      - "8080:8080"
     container_name: order-bff
     environment:
       ORDER_API_URL: http://order-api:8090
@@ -27,3 +29,5 @@ services:
   order-api:
     image: specmatic/specmatic-order-api-java:latest
     container_name: order-api
+    ports:
+      - "8090:8090"
