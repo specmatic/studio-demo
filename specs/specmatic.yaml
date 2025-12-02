@@ -13,6 +13,9 @@ contracts:
       - port: 9092
         specs:
         - kafka.yaml
+      - port: 8095
+        specs:
+          - inventory.wsdl
 report:
   formatters:
     - type: text

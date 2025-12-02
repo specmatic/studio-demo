@@ -87,7 +87,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadRequest'
-  /ordres:
+  /orders:
     post:
       description: Create a new order
       operationId: createOrder
