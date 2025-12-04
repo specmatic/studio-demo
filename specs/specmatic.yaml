@@ -16,6 +16,8 @@ contracts:
       - port: 8095
         specs:
           - inventory.wsdl
+#hooks:
+#  post_specmatic_response_processor: ./hooks/post_specmatic_response_processor.sh
 report:
   formatters:
     - type: text

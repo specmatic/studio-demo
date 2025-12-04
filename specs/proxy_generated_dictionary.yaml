@@ -20,6 +20,11 @@ PARAMETERS:
     type: $(type)
   HEADER:
     pageSize: 20
+    Accept: application/json, application/yaml, application/*+json
+    Content-Type: application/json
+    Authenticate: API-TOKEN-SPEC
+    Idempotency-Key: 6f211cea-ccea-4822-9e9a-5c136f60aa07
+    Connection: keep-alive
 
 Products_GET_200_application_json_ResponseBody:
   type: $(type)
