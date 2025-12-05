@@ -13,6 +13,11 @@ contracts:
       - port: 9092
         specs:
         - kafka.yaml
+      - port: 8095
+        specs:
+          - inventory.wsdl
+#hooks:
+#  post_specmatic_response_processor: ./hooks/post_specmatic_response_processor.sh
 report:
   formatters:
     - type: text

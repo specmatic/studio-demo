@@ -20,10 +20,21 @@ services:
   order-bff:
     image: specmatic/specmatic-order-bff-java:latest
     container_name: order-bff
+    ports:
+      - "8080:8080"
     environment:
       ORDER_API_URL: http://order-api:8090
       KAFKA_BOOTSTRAP_SERVERS: "studio:9092"
+      CORS_ORIGINS: http://localhost:3000
 
   order-api:
     image: specmatic/specmatic-order-api-java:latest
     container_name: order-api
+    environment:
+      INVENTORY_API_URL: http://inventory-api:8095/ws
+
+  inventory-api:
+    image: specmatic/specmatic-inventory-api-wsdl-java:latest
+    container_name: inventory-api
+    ports:
+      - "8095:8095"
