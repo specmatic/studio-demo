@@ -31,10 +31,10 @@ services:
     image: specmatic/specmatic-order-api-java:latest
     container_name: order-api
     environment:
-      ORDER_INVENTORY_API_URL: http://order-inventory-service:8095/ws
+      INVENTORY_API_URL: http://inventory-api:8095/ws
 
-  order-inventory-service:
-    image: specmatic/specmatic-order-inventory-wsdl-java:latest
-    container_name: order-inventory-service
+  inventory-api:
+    image: specmatic/specmatic-inventory-api-wsdl-java:latest
+    container_name: inventory-api
     ports:
       - "8095:8095"
