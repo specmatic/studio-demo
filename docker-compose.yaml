@@ -16,12 +16,6 @@ services:
         listeners=PLAINTEXT://0.0.0.0:9092
         listener.security.protocol.map=PLAINTEXT:PLAINTEXT
         inter.broker.listener.name=PLAINTEXT
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/ >/dev/null"]
-      interval: 2s
-      timeout: 2s
-      retries: 10
-      start_period: 20s
 
   order-bff:
     image: specmatic/specmatic-order-bff-java:latest
@@ -35,14 +29,12 @@ services:
     depends_on:
       order-api:
         condition: service_healthy
-      studio:
-        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health >/dev/null"]
       interval: 2s
       timeout: 2s
       retries: 10
-      start_period: 15s
+      start_period: 1s
 
   order-api:
     image: specmatic/specmatic-order-api-java:latest
@@ -53,11 +45,11 @@ services:
       inventory-api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8090/internal/metrics >/dev/null"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8090/products >/dev/null"]
       interval: 2s
       timeout: 2s
       retries: 10
-      start_period: 15s
+      start_period: 1s
 
   inventory-api:
     image: specmatic/specmatic-inventory-api-wsdl-java:latest
@@ -69,4 +61,4 @@ services:
       interval: 2s
       timeout: 2s
       retries: 10
-      start_period: 15s
+      start_period: 1s
