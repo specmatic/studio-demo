@@ -29,7 +29,7 @@ dependencies:
           port: 8095
 #  data:
 #    adapters:
-#      post_specmatic_response_processor: ./hooks/post_specmatic_response_processor.sh
+#      post_specmatic_response_processor: ./adapters/post_specmatic_response_processor.sh
 
 proxies:
 - proxy:
