@@ -1,32 +1,92 @@
-version: 2
-contracts:
-  - filesystem:
-      directory: .
-    provides:
-      - specs:
-        - product_search_bff_v5.yaml
+version: 3
+systemUnderTest:
+  service:
+    $ref: "#/components/services/productSearchBffService"
+    runOptions:
+      openapi:
         baseUrl: http://order-bff:8080
-    consumes:
-      - port: 9090
-        specs:
-        - proxy_generated.yaml
-      - port: 9092
-        specs:
-        - kafka.yaml
-      - port: 8095
-        specs:
-          - inventory.wsdl
-#hooks:
-#  post_specmatic_response_processor: ./hooks/post_specmatic_response_processor.sh
-report:
-  formatters:
-    - type: text
-      layout: table
-    - type: ctrf
-  types:
-    APICoverage:
-      OpenAPI:
-        successCriteria:
-          minThresholdPercentage: 70
-          maxMissedEndpointsInSpec: 0
-          enforce: true
+dependencies:
+  services:
+  - service:
+      $ref: "#/components/services/proxyService"
+      runOptions:
+        openapi:
+          port: 9090
+  - service:
+      $ref: "#/components/services/kafkaService"
+      runOptions:
+        asyncapi:
+          inMemoryBroker:
+            host: localhost
+            port: 9092
+          servers:
+          - host: localhost:9092
+            protocol: kafka
+  - service:
+      $ref: "#/components/services/inventoryService"
+      runOptions:
+        wsdl:
+          port: 8095
+#  data:
+#    adapters:
+#      post_specmatic_response_processor: ./adapters/post_specmatic_response_processor.sh
+
+proxies:
+- proxy:
+    target: http://order-api:8090
+    baseUrl: http://0.0.0.0:9090
+    mock:
+    - proxy_recordings.yaml
+specmatic:
+  governance:
+    successCriteria:
+      minCoveragePercentage: 70
+      maxMissedOperationsInSpec: 0
+      enforce: true
+components:
+  sources:
+    localSpecs:
+      filesystem:
+        directory: .
+  services:
+    productSearchBffService:
+      description: Product Search BFF Service
+      definitions:
+      - definition:
+          source:
+            $ref: "#/components/sources/localSpecs"
+          specs:
+          - spec:
+              id: productSearchBffSpec
+              path: product_search_bff_v5.yaml
+    proxyService:
+      description: Proxy Service for Order API
+      definitions:
+      - definition:
+          source:
+            $ref: "#/components/sources/localSpecs"
+          specs:
+          - spec:
+              id: proxySpec
+              path: proxy_recordings.yaml
+    kafkaService:
+      description: Kafka AsyncAPI Service
+      definitions:
+      - definition:
+          source:
+            $ref: "#/components/sources/localSpecs"
+          specs:
+          - spec:
+              id: kafkaSpec
+              path: kafka.yaml
+              specType: asyncapi
+    inventoryService:
+      description: Inventory WSDL Service
+      definitions:
+      - definition:
+          source:
+            $ref: "#/components/sources/localSpecs"
+          specs:
+          - spec:
+              id: inventorySpec
+              path: inventory.wsdl
