@@ -1,36 +1,92 @@
-version: 2
-contracts:
-- provides:
-  - baseUrl: http://order-bff:8080
-    specs:
-    - product_search_bff_v5.yaml
-  consumes:
-  - port: 9090
-    specs:
-    - proxy_recordings.yaml
-  - specs:
-    - kafka.yaml
-    specType: asyncapi
-    config:
-      inMemoryBroker:
-        host: localhost
-        port: 9092
-      servers:
-        - host: localhost:9092
-          protocol: kafka
-  - port: 8095
-    specs:
-    - inventory.wsdl
-proxy:
-  port: 9090
-  targetUrl: http://order-api:8090
-  consumes:
-  - proxy_recordings.yaml
-report:
-  types:
-    APICoverage:
-      OpenAPI:
-        successCriteria:
-          minThresholdPercentage: 70
-          maxMissedEndpointsInSpec: 0
-          enforce: true
+version: 3
+
+systemUnderTest:
+  service:
+    $ref: "#/components/services/productSearchBffService"
+
+dependencies:
+  services:
+    - service:
+        $ref: "#/components/services/proxyService"
+
+    - service:
+        $ref: "#/components/services/kafkaService"
+
+    - service:
+        $ref: "#/components/services/inventoryService"
+
+specmatic:
+  governance:
+    successCriteria:
+      minCoveragePercentage: 70
+      maxMissedOperationsInSpec: 0
+      enforce: true
+
+components:
+  sources:
+    localSpecs:
+      filesystem:
+        directory: .
+
+  services:
+    productSearchBffService:
+      description: Product Search BFF Service
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/localSpecs"
+            specs:
+              - spec:
+                  id: productSearchBffSpec
+                  path: product_search_bff_v5.yaml
+      runOptions:
+        openapi:
+          baseUrl: http://order-bff:8080
+
+    proxyService:
+      description: Proxy Service for Order API
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/localSpecs"
+            specs:
+              - spec:
+                  id: proxySpec
+                  path: proxy_recordings.yaml
+      runOptions:
+        openapi:
+          port: 9090
+
+    kafkaService:
+      description: Kafka AsyncAPI Service
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/localSpecs"
+            specs:
+              - spec:
+                  id: kafkaSpec
+                  path: kafka.yaml
+                  specType: asyncapi
+      runOptions:
+        asyncapi:
+          inMemoryBroker:
+            host: localhost
+            port: 9092
+          servers:
+            - host: "localhost:9092"
+              protocol: kafka
+
+    inventoryService:
+      description: Inventory WSDL Service
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/localSpecs"
+            specs:
+              - spec:
+                  id: inventorySpec
+                  path: inventory.wsdl
+      runOptions:
+        wsdl:
+          port: 8095
